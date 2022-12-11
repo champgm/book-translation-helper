@@ -1,0 +1,19 @@
+{
+  "name": "book-translation-helper",
+  "version": "1.0.0",
+  "description": "Automate some of the steps required to translate kids books",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/champgm/book-translation-helper.git"
+  },
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/champgm/book-translation-helper/issues"
+  },
+  "homepage": "https://github.com/champgm/book-translation-helper#readme"
+}
