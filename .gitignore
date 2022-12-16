@@ -1,3 +1,9 @@
+.vscode
+serviceAccountKeyFile.json
+clientSecret.json
+savedOauthToken.json
+
+# ===== GitHub generated stuff =====
 # Logs
 logs
 *.log

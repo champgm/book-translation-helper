@@ -15,5 +15,17 @@
   "bugs": {
     "url": "https://github.com/champgm/book-translation-helper/issues"
   },
-  "homepage": "https://github.com/champgm/book-translation-helper#readme"
+  "homepage": "https://github.com/champgm/book-translation-helper#readme",
+  "devDependencies": {
+    "@types/lodash": "^4.14.191",
+    "@types/node": "^18.11.13",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@google-cloud/local-auth": "^2.1.1",
+    "@google-cloud/translate": "^7.0.4",
+    "@google-cloud/vision": "^3.0.1",
+    "googleapis": "^109.0.1",
+    "lodash": "^4.17.21"
+  }
 }
