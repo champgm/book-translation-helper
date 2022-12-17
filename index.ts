@@ -4,6 +4,7 @@ import { program } from 'commander';
 import { VisionOcr } from './ocr/VisionOcr';
 import { Translation } from './translate/Translation';
 import { GoogleDrive } from './files/GoogleDrive';
+import { config, Configuration } from './configuration';
 
 program
   .requiredOption('-i, --input <path>', 'file or folder path containing images')
@@ -11,7 +12,7 @@ program
   .option('-f, --from <language>', 'language code from which to translate, default is "zh"', 'zh')
   .option('-t, --to <language>', 'language code to which to translate, default is "en"', 'en')
   .option('-l, --logs', 'output debug logs')
-const options = program.opts();
+const options: Configuration = { ...program.opts(), ...config };
 
 
 const myArgs = process.argv.slice(2);

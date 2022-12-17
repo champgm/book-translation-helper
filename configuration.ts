@@ -19,11 +19,11 @@ export class Configuration {
    */
   public savedOathToken: string = "";
 
-  public logs: boolean = true;
-  public input: string;
-  public document: string;
-  public to: string;
-  public from: string;
+  public logs: boolean = false;
+  public input: string = "";
+  public document: string = "";
+  public to: string = "";
+  public from: string = "";
 }
 
 export const config: Configuration = {

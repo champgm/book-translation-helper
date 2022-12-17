@@ -18,10 +18,10 @@ export class Translation implements Translate {
         // model?: string;
         to: "en",
       });
-      if(config.debugLogs) console.log(`Got a result: `);
-      if(config.debugLogs) console.log(`Original  : ${text}`);
-      if(config.debugLogs) console.log(`Translated: ${result[0]}`);
-      if(config.debugLogs) console.log(`Metadata: ${JSON.stringify(result[1], null, 2)}`);
+      if(config.logs) console.log(`Got a result: `);
+      if(config.logs) console.log(`Original  : ${text}`);
+      if(config.logs) console.log(`Translated: ${result[0]}`);
+      if(config.logs) console.log(`Metadata: ${JSON.stringify(result[1], null, 2)}`);
       results.push(result[0]);
     }
     return results;
