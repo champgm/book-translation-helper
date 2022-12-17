@@ -25,7 +25,7 @@ export class GoogleDrive implements Files {
    * Serializes credentials to a file compatible with GoogleAUth.fromJSON.
    */
   private async saveCredentials(client: OAuth2Client) {
-    console.log(`Saving credentials to ${config.savedOathToken}`);
+    if (config.debugLogs) if (config.debugLogs) console.log(`Saving credentials to ${config.savedOathToken}`);
     const content = fs.readFileSync(config.oauthClientSecret);
     const keys = JSON.parse(content.toString());
     const key = keys.installed || keys.web;
@@ -68,11 +68,11 @@ export class GoogleDrive implements Files {
         title: fileName,
       },
     });
-    console.log(`Document createResponse: ${JSON.stringify(createResponse, null, 2)}`);
+    if (config.debugLogs) console.log(`Document createResponse: ${JSON.stringify(createResponse, null, 2)}`);
 
     if (createResponse.data.documentId) {
       // const file = await drive.files.get({ fileId: createResponse.data.documentId })
-      // console.log(`Document file: ${JSON.stringify(file, null, 2)}`);
+      // if(config.debugLogs) console.log(`Document file: ${JSON.stringify(file, null, 2)}`);
       // await drive.files.update({ fileId: createResponse.data.documentId })
       const updateResponse = await docs.documents.batchUpdate({
         documentId: createResponse.data.documentId,
@@ -90,9 +90,9 @@ export class GoogleDrive implements Files {
             }]
         }
       });
-      console.log(`Document updateResponse: ${JSON.stringify(updateResponse, null, 2)}`);
+      if (config.debugLogs) console.log(`Document updateResponse: ${JSON.stringify(updateResponse, null, 2)}`);
     } else {
-      console.log(`No documentId included in response, document create failed?`);
+      if (config.debugLogs) console.log(`No documentId included in response, document create failed?`);
     }
   }
 }

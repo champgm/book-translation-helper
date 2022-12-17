@@ -18,10 +18,13 @@ export class Configuration {
    * ctrl+f for loadSavedCredentialsIfExist
    */
   public savedOathToken: string = "";
+
+  public debugLogs: boolean = true;
 }
 
 export const config: Configuration = {
   serviceAccountKeyFilePath: `${__dirname}/serviceAccountKeyFile.json`,
   oauthClientSecret: `${__dirname}/clientSecret.json`,
-  savedOathToken: `${__dirname}/savedOauthToken.json`
+  savedOathToken: `${__dirname}/savedOauthToken.json`,
+  debugLogs: false,
 }

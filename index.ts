@@ -37,18 +37,55 @@ async function doIt() {
     });
   }
 
+  console.log(`All file paths:`);
+  for (const filePath of filePaths) {
+    console.log(`\t${filePath}`);
+  }
+
+  console.log(`Running OCR...`);
   const ocr = new VisionOcr();
-  const fullText = await ocr.getText(filePaths, ['zh'], 0.8);
-  console.log(`\n\n`);
+  const ocredTexts = await ocr.getText(filePaths, ['zh'], 0.8);
 
+  console.log(`Translating...`);
   const translate = new Translation();
-  const translatedText = await translate.translateText(fullText, "zh", "en");
+  const translatedTexts = await translate.translateText(ocredTexts, "zh", "en");
   console.log(`\n\n`);
 
+
+  if (
+    filePaths.length != ocredTexts.length
+    || filePaths.length != translatedTexts.length
+  ) {
+    console.log(`Unexpected number of OCRs/Translations.`);
+    console.log(`Files: `);
+    for (const filePath of filePaths) {
+      console.log(`\t${filePath}`);
+    }
+    console.log(`OCRed Texts: `);
+    for (const text of ocredTexts) {
+      console.log(`\t${text}`);
+    }
+    console.log(`Translated Texts: `);
+    for (const text of translatedTexts) {
+      console.log(`\t${text}`);
+    }
+  }
+  console.log(`All Translated Text: `);
+  for (let index = 0; index < translatedTexts.length; index++) {
+    const filePath = filePaths[index];
+    const ocredText = ocredTexts[index];
+    const translatedText = translatedTexts[index];
+
+    console.log(`File: ${filePath}`);
+    console.log(`\tOriginal text  : ${ocredText}`);
+    console.log(`\tTranslated text: ${translatedText}`);
+  };
+
+  console.log(`Writing to google drive...`);
   const files = new GoogleDrive();
   await files.saveFile(
     fileName,
-    translatedText.join('\n'),
+    translatedTexts.join('\n'),
   );
 
   console.log(`All done?`);

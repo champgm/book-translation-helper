@@ -10,7 +10,7 @@ export class VisionOcr implements Ocr {
     minimumConfidence: number,
   ): Promise<string[]> {
     if (filePaths.length == 0) {
-      console.log(`No image buffers provided, returning.`);
+      if(config.debugLogs) console.log(`No image buffers provided, returning.`);
       return [];
     }
 
@@ -19,7 +19,7 @@ export class VisionOcr implements Ocr {
     });
 
     const results: string[] = [];
-    console.log(`Received a single image buffer, annotating single image.`);
+    if(config.debugLogs) console.log(`Received a single image buffer, annotating single image.`);
     for (const filePath of filePaths) {
       const requestParameters = {
         image: { source: { filename: filePath }, },
@@ -28,44 +28,44 @@ export class VisionOcr implements Ocr {
       };
       let result = (await client.annotateImage(requestParameters))[0];
       result = omitDeep(result, ['boundingBox', 'boundingPoly', 'textAnnotations'])
-      console.log(`Sanitized annotation result: ${JSON.stringify(result)}`);
+      if(config.debugLogs) console.log(`Sanitized annotation result: ${JSON.stringify(result)}`);
 
-      console.log(`Extracting text from result...`);
+      if(config.debugLogs) console.log(`Extracting text from result...`);
       let extractedText = '';
       for (const page of result.fullTextAnnotation?.pages || []) {
-        console.log(` Found a page...`);
+        if(config.debugLogs) console.log(` Found a page...`);
         for (const block of page.blocks || []) {
-          console.log(`  Found a block...`);
+          if(config.debugLogs) console.log(`  Found a block...`);
           for (const paragraph of block.paragraphs || []) {
-            console.log(`   Found a paragraph...`);
+            if(config.debugLogs) console.log(`   Found a paragraph...`);
             for (const word of paragraph.words || []) {
-              console.log(`    Found a word...`);
+              if(config.debugLogs) console.log(`    Found a word...`);
               const rightLanguage =
                 word.property?.detectedLanguages?.some((language) => {
                   return languageHints.includes(language.languageCode || 'NONE');
                 });
               if (rightLanguage) {
-                console.log(`     Word matches expected language(s).`);
+                if(config.debugLogs) console.log(`     Word matches expected language(s).`);
                 for (const symbol of word.symbols || []) {
                   if ((symbol.confidence || 0) >= minimumConfidence) {
                     extractedText = extractedText.concat(symbol.text || '');
                   }
-                  if (symbol.property?.detectedBreak) {
-                    extractedText = extractedText.concat('\n');
-                  }
+                  // if (symbol.property?.detectedBreak) {
+                  //   extractedText = extractedText.concat();
+                  // }
                 }
               } else {
-                console.log(`Word was not in the expected language(s).`);
+                if(config.debugLogs) console.log(`Word was not in the expected language(s).`);
               }
             }
           }
         }
       }
-      console.log(`Full Text: ${result.fullTextAnnotation?.text}`);
-      console.log(``);
-      console.log(`Filtered text: ${extractedText}`);
-      results.push(extractedText);
-      console.log(``);
+      if(config.debugLogs) console.log(`Full Text: ${result.fullTextAnnotation?.text}`);
+      if(config.debugLogs) console.log(``);
+      if(config.debugLogs) console.log(`Filtered text: ${extractedText}`);
+      results.push(`${extractedText}\n`);
+      if(config.debugLogs) console.log(``);
     }
 
     return results;
