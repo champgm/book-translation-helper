@@ -4,37 +4,6 @@ import { VisionOcr } from './ocr/VisionOcr';
 import { Translation } from './translate/Translation';
 import { GoogleDrive } from './files/GoogleDrive';
 
-import yargs from 'yargs/yargs';
-import { hideBin } from 'yargs/helpers';
-const yargsSetup = yargs(hideBin(process.argv))
-  .usage(`
-Book Translation Helper
-Usage: $0 [options]
-`)
-  .help('help').alias('help', 'h')
-  .options({
-    input: {
-      alias: 'i',
-      description: "<file path> Input file path to a picture OR a directory of pictures",
-      requiresArg: true,
-      required: true
-    },
-    document_name: {
-      alias: 'd',
-      description: "<document name> Name for the document which will contain translated content",
-      requiresArg: true,
-      required: true
-    },
-    document_name: {
-      alias: 'd',
-      description: "<document name> Name for the document which will contain translated content",
-      requiresArg: true,
-      required: true
-    }
-  });
-const argv = yargsSetup.argv
-
-
 const myArgs = process.argv.slice(2);
 console.log('myArgs: ', myArgs);
 
