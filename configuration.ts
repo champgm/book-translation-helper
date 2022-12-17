@@ -19,12 +19,20 @@ export class Configuration {
    */
   public savedOathToken: string = "";
 
-  public debugLogs: boolean = true;
+  public logs: boolean = true;
+  public input: string;
+  public document: string;
+  public to: string;
+  public from: string;
 }
 
 export const config: Configuration = {
   serviceAccountKeyFilePath: `${__dirname}/serviceAccountKeyFile.json`,
   oauthClientSecret: `${__dirname}/clientSecret.json`,
   savedOathToken: `${__dirname}/savedOauthToken.json`,
-  debugLogs: false,
+  logs: false,
+  input: "",
+  document: "",
+  to: "en",
+  from: 'zh',
 }
