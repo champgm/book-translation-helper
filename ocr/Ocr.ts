@@ -1,7 +1,10 @@
+import { Configuration } from "../configuration";
+
 export interface Ocr {
   getText(
+    config: Configuration,
     filePaths: string[],
     languageHints: string[],
-    minimumConfidence:number,
+    minimumConfidence: number,
   ): Promise<string[]>;
 }

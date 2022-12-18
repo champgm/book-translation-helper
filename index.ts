@@ -1,18 +1,13 @@
 import path from 'path'
 import fs from 'fs'
-import { program } from 'commander';
-import { VisionOcr } from './ocr/VisionOcr';
-import { Translation } from './translate/Translation';
 import { GoogleDrive } from './files/GoogleDrive';
+import { Translation } from './translate/Translation';
+import { VisionOcr } from './ocr/VisionOcr';
 import { config, Configuration } from './configuration';
+import { getOptions } from './options';
 
-program
-  .requiredOption('-i, --input <path>', 'file or folder path containing images')
-  .requiredOption('-d, --document <name>', 'name for the document which will contain translated text')
-  .option('-f, --from <language>', 'language code from which to translate, default is "zh"', 'zh')
-  .option('-t, --to <language>', 'language code to which to translate, default is "en"', 'en')
-  .option('-l, --logs', 'output debug logs')
-const options: Configuration = { ...program.opts(), ...config };
+
+const options: Configuration = { ...getOptions(), ...config };
 
 
 const myArgs = process.argv.slice(2);

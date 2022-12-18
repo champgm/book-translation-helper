@@ -1,5 +1,10 @@
-
+import { Configuration } from "../configuration";
 
 export interface Translate {
-  translateText(originalTexts: string[], fromLanguage: string, toLanguage: string): Promise<string[]>;
+  translateText(
+    config: Configuration,
+    originalTexts: string[],
+    fromLanguage: string,
+    toLanguage: string,
+  ): Promise<string[]>;
 }

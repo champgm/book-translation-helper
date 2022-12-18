@@ -1,8 +1,7 @@
 // import path from 'path';
 import fs from 'fs';
-import { } from 'googleapis';
 import { authenticate } from '@google-cloud/local-auth';
-import { config } from '../configuration';
+import { Configuration } from '../configuration';
 // import { file_v1 } from 'googleapis';
 import { google, drive_v3, docs_v1 } from 'googleapis';
 import { Files } from './Files';
@@ -11,7 +10,7 @@ import { OAuth2Client } from 'google-auth-library';
 
 export class GoogleDrive implements Files {
 
-  private async loadSavedCredentialsIfExist() {
+  private async loadSavedCredentialsIfExist(config: Configuration) {
     try {
       const content = fs.readFileSync(config.savedOathToken);
       const credentials = JSON.parse(content.toString());
@@ -24,7 +23,7 @@ export class GoogleDrive implements Files {
   /**
    * Serializes credentials to a file compatible with GoogleAUth.fromJSON.
    */
-  private async saveCredentials(client: OAuth2Client) {
+  private async saveCredentials(config: Configuration, client: OAuth2Client) {
     if (config.logs) if (config.logs) console.log(`Saving credentials to ${config.savedOathToken}`);
     const content = fs.readFileSync(config.oauthClientSecret);
     const keys = JSON.parse(content.toString());
@@ -38,7 +37,7 @@ export class GoogleDrive implements Files {
     fs.writeFileSync(config.savedOathToken, payload);
   }
 
-  private async authorize() {
+  private async authorize(config: Configuration) {
     let savedClient = await this.loadSavedCredentialsIfExist();
     if (savedClient) {
       return savedClient;
@@ -48,20 +47,21 @@ export class GoogleDrive implements Files {
       keyfilePath: config.oauthClientSecret,
     });
     if (client.credentials) {
-      await this.saveCredentials(client);
+      await this.saveCredentials(config, client);
     }
     return client;
   }
 
 
   public async saveFile(
+    config: Configuration,
     fileName: string,
     // fileFolderPath: string,
     fileContents: string,
   ) {
-    const authClient = await this.authorize();
+    const authClient = await this.authorize(config);
     const docs = new docs_v1.Docs({ auth: authClient });
-    const drive = new drive_v3.Drive({ auth: authClient });
+    // const drive = new drive_v3.Drive({ auth: authClient });
 
     const createResponse = await docs.documents.create({
       requestBody: {
@@ -71,9 +71,6 @@ export class GoogleDrive implements Files {
     if (config.logs) console.log(`Document createResponse: ${JSON.stringify(createResponse, null, 2)}`);
 
     if (createResponse.data.documentId) {
-      // const file = await drive.files.get({ fileId: createResponse.data.documentId })
-      // if(config.logs) console.log(`Document file: ${JSON.stringify(file, null, 2)}`);
-      // await drive.files.update({ fileId: createResponse.data.documentId })
       const updateResponse = await docs.documents.batchUpdate({
         documentId: createResponse.data.documentId,
         requestBody: {
