@@ -23,6 +23,7 @@ Workflow now:
 * Print that on label paper, cut them out, stick them in the book
 
 An example input image (scaled down to save space):
+
 ![chinese book cover](https://github.com/champgm/book-translation-helper/blob/main/README/example-zh.png)
 
 Console output would show something like this:
@@ -33,6 +34,7 @@ File: C:\Users\me\Downloads\Photos-001\example.jpg
 ```
 
 Or, In the other direction:
+
 ![english book page](https://github.com/champgm/book-translation-helper/blob/main/README/example-en.png)
 
 Would output something like this to the console:
