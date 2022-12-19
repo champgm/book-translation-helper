@@ -4,7 +4,7 @@
   "description": "Automate some of the steps required to translate kids books",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --fix"
+    "lint": "eslint --fix ."
   },
   "repository": {
     "type": "git",
