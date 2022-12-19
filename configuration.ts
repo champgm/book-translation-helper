@@ -21,9 +21,10 @@ export class Configuration {
 
   public logs: boolean = false;
   public input: string = "";
-  public document: string = "";
+  public documentName: string = "";
   public to: string = "";
   public from: string = "";
+  public minimumConfidence: number = 0;
 }
 
 export const config: Configuration = {
@@ -32,7 +33,8 @@ export const config: Configuration = {
   savedOathToken: `${__dirname}/savedOauthToken.json`,
   logs: false,
   input: "",
-  document: "",
+  documentName: "",
   to: "en",
   from: 'zh',
+  minimumConfidence: 0.8,
 }

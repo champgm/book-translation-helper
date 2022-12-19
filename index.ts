@@ -6,40 +6,20 @@ import { VisionOcr } from './ocr/VisionOcr';
 import { config, Configuration } from './configuration';
 import { getOptions } from './options';
 
-
 const options: Configuration = { ...getOptions(), ...config };
 
-
-const myArgs = process.argv.slice(2);
-console.log('myArgs: ', myArgs);
-
-const folderPath = myArgs[0];
-const fileName = myArgs[1];
-if (!folderPath) {
-  throw new Error("Folder path is required.")
-} else {
-  console.log(`Folder path: ${folderPath}`);
-}
-if (!fileName) {
-  throw new Error("File name is required.")
-} else {
-  console.log(`File name: ${folderPath}`);
-}
-
-
-
 async function doIt() {
-  if (!fs.existsSync(folderPath)) {
+  if (!fs.existsSync(options.input)) {
     console.log(`Folder path does not exist.`);
     return;
   }
 
   let filePaths: string[] = [];
-  if (folderPath.endsWith('.jpg')) {
-    filePaths = [folderPath];
+  if (options.input.endsWith('.jpg')) {
+    filePaths = [options.input];
   } else {
-    filePaths = fs.readdirSync(folderPath).map((fileName) => {
-      return path.join(folderPath, fileName);
+    filePaths = fs.readdirSync(options.input).map((fileName) => {
+      return path.join(options.input, fileName);
     });
   }
 
@@ -50,11 +30,11 @@ async function doIt() {
 
   console.log(`Running OCR...`);
   const ocr = new VisionOcr();
-  const ocredTexts = await ocr.getText(filePaths, ['zh'], 0.8);
+  const ocredTexts = await ocr.getText(options, filePaths);
 
   console.log(`Translating...`);
   const translate = new Translation();
-  const translatedTexts = await translate.translateText(ocredTexts, "zh", "en");
+  const translatedTexts = await translate.translateText(options, ocredTexts);
   console.log(`\n\n`);
 
 
@@ -90,7 +70,7 @@ async function doIt() {
   console.log(`Writing to google drive...`);
   const files = new GoogleDrive();
   await files.saveFile(
-    fileName,
+    options,
     translatedTexts.join('\n'),
   );
 

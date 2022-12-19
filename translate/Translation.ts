@@ -6,8 +6,6 @@ export class Translation implements Translate {
   async translateText(
     config: Configuration,
     originalText: string[],
-    fromLanguage: string,
-    toLanguage: string,
   ): Promise<string[]> {
     if (originalText.length == 0) return [];
 
@@ -19,9 +17,8 @@ export class Translation implements Translate {
     for (const text of originalText) {
       const result = await client.translate(text, {
         format: "text",
-        from: "zh",
-        // model?: string;
-        to: "en",
+        from: config.from,
+        to: config.to,
       });
       if (config.logs) console.log(`Got a result: `);
       if (config.logs) console.log(`Original  : ${text}`);

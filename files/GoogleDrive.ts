@@ -3,7 +3,7 @@ import fs from 'fs';
 import { authenticate } from '@google-cloud/local-auth';
 import { Configuration } from '../configuration';
 // import { file_v1 } from 'googleapis';
-import { google, drive_v3, docs_v1 } from 'googleapis';
+import { google, docs_v1 } from 'googleapis';
 import { Files } from './Files';
 import { OAuth2Client } from 'google-auth-library';
 
@@ -38,7 +38,7 @@ export class GoogleDrive implements Files {
   }
 
   private async authorize(config: Configuration) {
-    let savedClient = await this.loadSavedCredentialsIfExist();
+    let savedClient = await this.loadSavedCredentialsIfExist(config);
     if (savedClient) {
       return savedClient;
     }
@@ -55,8 +55,6 @@ export class GoogleDrive implements Files {
 
   public async saveFile(
     config: Configuration,
-    fileName: string,
-    // fileFolderPath: string,
     fileContents: string,
   ) {
     const authClient = await this.authorize(config);
@@ -65,7 +63,7 @@ export class GoogleDrive implements Files {
 
     const createResponse = await docs.documents.create({
       requestBody: {
-        title: fileName,
+        title: config.documentName,
       },
     });
     if (config.logs) console.log(`Document createResponse: ${JSON.stringify(createResponse, null, 2)}`);

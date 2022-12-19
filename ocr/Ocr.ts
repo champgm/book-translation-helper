@@ -5,6 +5,5 @@ export interface Ocr {
     config: Configuration,
     filePaths: string[],
     languageHints: string[],
-    minimumConfidence: number,
   ): Promise<string[]>;
 }

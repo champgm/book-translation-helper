@@ -7,8 +7,6 @@ export class VisionOcr implements Ocr {
   public async getText(
     config: Configuration,
     filePaths: string[],
-    languageHints: string[],
-    minimumConfidence: number,
   ): Promise<string[]> {
     if (filePaths.length == 0) {
       if (config.logs) console.log(`No image buffers provided, returning.`);
@@ -25,7 +23,7 @@ export class VisionOcr implements Ocr {
       const requestParameters = {
         image: { source: { filename: filePath }, },
         features: [{ type: "DOCUMENT_TEXT_DETECTION" }],
-        imageContext: { languageHints }
+        imageContext: { languageHints: [config.from] }
       };
       let result = (await client.annotateImage(requestParameters))[0];
       result = omitDeep(result, ['boundingBox', 'boundingPoly', 'textAnnotations'])
@@ -43,12 +41,12 @@ export class VisionOcr implements Ocr {
               if (config.logs) console.log(`    Found a word...`);
               const rightLanguage =
                 word.property?.detectedLanguages?.some((language) => {
-                  return languageHints.includes(language.languageCode || 'NONE');
+                  return config.from == language.languageCode;
                 });
               if (rightLanguage) {
                 if (config.logs) console.log(`     Word matches expected language(s).`);
                 for (const symbol of word.symbols || []) {
-                  if ((symbol.confidence || 0) >= minimumConfidence) {
+                  if ((symbol.confidence || 0) >= config.minimumConfidence) {
                     extractedText = extractedText.concat(symbol.text || '');
                   }
                   // if (symbol.property?.detectedBreak) {
