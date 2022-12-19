@@ -39,9 +39,9 @@ Or, In the other direction:
 
 Would output something like this to the console:
 ```
-File: /Users/me/Downloads/Photos-001/example-en.jpg
-	Original text  : Every Christmas, Little Blue has a delivery job to do. TOAD'S TREES 
-	Translated text: 每年圣诞节，小蓝都要送货。蟾蜍树
+File: /Users/gchampion/Downloads/Photos-001/PXL_20221219_014111414.jpg
+        Original text  : Beep! Beep! Beep! December's here! Little Blue Truck is full of cheer.
+        Translated text: 嘟！嘟！嘟！十二月来了！小蓝卡车欢呼雀跃。
 ```
 
 The full batch of text shows up in a new Google Doc in the root of my Google Drive. I manually check & clean up the translation (with help, when necessary), shape the text into blocks that fit onto each page, print the Google Doc on label paper, cut out each block of text, and stick them on the correct pages.
