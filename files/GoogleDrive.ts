@@ -66,7 +66,7 @@ export class GoogleDrive implements Files {
         title: config.documentName,
       },
     });
-    if (config.logs) console.log(`Document createResponse: ${JSON.stringify(createResponse, null, 2)}`);
+    if (config.logs) console.log(`Document createResponse: ${JSON.stringify(createResponse)}`);
 
     if (createResponse.data.documentId) {
       const updateResponse = await docs.documents.batchUpdate({
@@ -85,7 +85,7 @@ export class GoogleDrive implements Files {
             }]
         }
       });
-      if (config.logs) console.log(`Document updateResponse: ${JSON.stringify(updateResponse, null, 2)}`);
+      if (config.logs) console.log(`Document updateResponse: ${JSON.stringify(updateResponse)}`);
     } else {
       if (config.logs) console.log(`No documentId included in response, document create failed?`);
     }

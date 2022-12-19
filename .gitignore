@@ -2,6 +2,7 @@
 serviceAccountKeyFile.json
 clientSecret.json
 savedOauthToken.json
+logs.json
 
 # ===== GitHub generated stuff =====
 # Logs

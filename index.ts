@@ -6,11 +6,12 @@ import { VisionOcr } from './ocr/VisionOcr';
 import { config, Configuration } from './configuration';
 import { getOptions } from './options';
 
-const options: Configuration = { ...getOptions(), ...config };
+const commander = getOptions();
+const options: Configuration = { ...config, ...commander };
 
 async function doIt() {
   if (!fs.existsSync(options.input)) {
-    console.log(`Folder path does not exist.`);
+    console.log(`Folder path \"${options.input}\" does not exist.`);
     return;
   }
 

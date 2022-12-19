@@ -25,12 +25,14 @@ export class VisionOcr implements Ocr {
         features: [{ type: "DOCUMENT_TEXT_DETECTION" }],
         imageContext: { languageHints: [config.from] }
       };
+      if (config.logs) console.log(`Sending OCR request: ${JSON.stringify(requestParameters)}`);
       let result = (await client.annotateImage(requestParameters))[0];
       result = omitDeep(result, ['boundingBox', 'boundingPoly', 'textAnnotations'])
       if (config.logs) console.log(`Sanitized annotation result: ${JSON.stringify(result)}`);
 
       if (config.logs) console.log(`Extracting text from result...`);
       let extractedText = '';
+      // Oh man, get ready for a ride 🤦
       for (const page of result.fullTextAnnotation?.pages || []) {
         if (config.logs) console.log(` Found a page...`);
         for (const block of page.blocks || []) {
@@ -49,9 +51,21 @@ export class VisionOcr implements Ocr {
                   if ((symbol.confidence || 0) >= config.minimumConfidence) {
                     extractedText = extractedText.concat(symbol.text || '');
                   }
-                  // if (symbol.property?.detectedBreak) {
-                  //   extractedText = extractedText.concat();
-                  // }
+
+                  // In Chinese, spaces are probably false positives. 
+                  // Either way, they aren't necessary and can make the translation much better if dropped
+                  // Same thing goes for line breaks.
+                  if (config.from == 'zh') {
+                    continue;
+                  } else if (
+                    symbol.property?.detectedBreak?.type == "SPACE"
+                    || symbol.property?.detectedBreak?.type == "SURE_SPACE"
+                    // It still helps to get rid of line breaks though.
+                    || symbol.property?.detectedBreak?.type == "LINE_BREAK"
+                    || symbol.property?.detectedBreak?.type == "EOL_SURE_SPACE"
+                  ) {
+                    extractedText = extractedText.concat(' ');
+                  }
                 }
               } else {
                 if (config.logs) console.log(`Word was not in the expected language(s).`);
