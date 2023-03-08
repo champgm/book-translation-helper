@@ -63,3 +63,7 @@ ts-node index \
 --to en \
 --minimumConfidence 0.8
 ```
+
+## Notes
+
+If you run into an auth problem when writing the Google document, delete `savedOauthToken.json` and try again.
