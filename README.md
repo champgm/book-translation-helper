@@ -57,7 +57,7 @@ Options:
   -d, --documentName <name>          name for the document which will contain translated text
   -f, --from <language>              language code from which to translate (default: "zh")
   -t, --to <language>                language code to which to translate (default: "en")
-  -c, --minimumConfidence <decimal>  minimum confidence (decimal, 0-1) that a portion of detected text is actually text (default: "0.8")
+  -c, --minimumConfidence <decimal>  minimum confidence (decimal, 0-1) that a portion of detected text is actually text. Default is 0 but if you get weird stuff picked up in your results, try setting it higher. (default: "0")
   -l, --logs                         output debug logs
   -h, --help                         display help for command
 ```
@@ -80,7 +80,7 @@ ts-node index `
 --documentName "Translated Book" `
 --from zh `
 --to en `
---minimumConfidence 0.8
+--minimumConfidence 0
 ```
 or
 ```
@@ -89,7 +89,7 @@ ts-node index \
 --documentName "Translated Book" \
 --from zh \
 --to en \
---minimumConfidence 0.8
+--minimumConfidence 0
 ```
 
 ## Notes
@@ -101,3 +101,9 @@ If you need some help understanding why the OCR API is returning the text that i
 Sometimes, in VisionOcr, you can get better results if you switch the image annotation type from `DOCUMENT_TEXT_DETECTION` to `TEXT_DETECTION`, but this will almost always result in no text detected at all.
 
 If all else fails, you can upload images to Google Translate and it sometimes has better luck: https://translate.google.com/?sl=auto&tl=en&op=images
+
+
+## Misc Links
+
+https://cloud.google.com/translate/docs/hybrid-glossaries-tutorial#node.js
+https://cloud.google.com/nodejs/docs/reference/vision/latest

@@ -40,5 +40,5 @@ export const config: Configuration = {
     documentName: '',
     to: 'en',
     from: 'zh',
-    minimumConfidence: 0.8,
+    minimumConfidence: 0,
 };

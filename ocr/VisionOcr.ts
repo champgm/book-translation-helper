@@ -1,5 +1,5 @@
 import { Ocr } from './Ocr';
-import { v1p1beta1, protos } from '@google-cloud/vision';
+import { protos,ImageAnnotatorClient } from '@google-cloud/vision';
 import { Configuration } from '../configuration';
 import { omitDeep } from '../omitDeep';
 // import { google } from '@google-cloud/vision'
@@ -50,7 +50,7 @@ export class VisionOcr implements Ocr {
       return [];
     }
 
-    const client = new v1p1beta1.ImageAnnotatorClient({
+    const client = new ImageAnnotatorClient({
       keyFilename: config.serviceAccountKeyFilePath,
     });
 
@@ -59,13 +59,12 @@ export class VisionOcr implements Ocr {
     for (const filePath of filePaths) {
       const requestParameters = {
         image: { source: { filename: filePath }, },
-        // features: [{ type: 'TEXT_DETECTION' }],
-        features: [{ type: 'DOCUMENT_TEXT_DETECTION' }],
         imageContext: { languageHints: [config.from] }
       };
 
       if (config.logs) console.log(`Sending OCR request: ${JSON.stringify(requestParameters)}`);
-      const result = (await client.annotateImage(requestParameters))[0];
+      const result = (await client.textDetection(requestParameters))[0]
+      
 
       if (config.logs) {
         // The result is crazy big. If it needs to be logged, it's best to drop some fields first.
