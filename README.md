@@ -95,3 +95,9 @@ ts-node index \
 ## Notes
 
 If you run into an auth problem when writing the Google document, delete `savedOauthToken.json` and try again.
+
+If you need some help understanding why the OCR API is returning the text that it is, there's a decently helpful GUI for it here: https://cloud.google.com/vision/docs/drag-and-drop
+
+Sometimes, in VisionOcr, you can get better results if you switch the image annotation type from `DOCUMENT_TEXT_DETECTION` to `TEXT_DETECTION`, but this will almost always result in no text detected at all.
+
+If all else fails, you can upload images to Google Translate and it sometimes has better luck: https://translate.google.com/?sl=auto&tl=en&op=images

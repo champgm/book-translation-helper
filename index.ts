@@ -9,6 +9,10 @@ import { getOptions } from './options';
 const commander = getOptions();
 const options: Configuration = { ...config, ...commander };
 
+// async function useGoogleTranslate
+
+
+
 async function doIt() {
     if (!fs.existsSync(options.input)) {
         console.log(`Folder path "${options.input}" does not exist.`);

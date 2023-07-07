@@ -69,7 +69,7 @@ export class GoogleDrive implements Files {
         fileContents: string,
     ) {
     // Get auth & instantiate the docs client
-        const authClient = await this.authorize(config);
+        const authClient = (await this.authorize(config)) as OAuth2Client;
         const docs = new docs_v1.Docs({ auth: authClient });
 
         // Docs can't be created with contents, it seems.

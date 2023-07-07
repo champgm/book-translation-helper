@@ -59,6 +59,7 @@ export class VisionOcr implements Ocr {
     for (const filePath of filePaths) {
       const requestParameters = {
         image: { source: { filename: filePath }, },
+        // features: [{ type: 'TEXT_DETECTION' }],
         features: [{ type: 'DOCUMENT_TEXT_DETECTION' }],
         imageContext: { languageHints: [config.from] }
       };
